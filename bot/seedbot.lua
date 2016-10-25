@@ -226,6 +226,7 @@ function create_config( )
 			"plugins",
     "set",
     "support",
+			"lock_cmd",
     "get",
     "broadcast",
     "invite",
