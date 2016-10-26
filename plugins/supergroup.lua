@@ -637,8 +637,29 @@ end
 		end
 	end
   local settings = data[tostring(target)]['settings']
-  local text = "SuperGroup settings:\nLock links : "..settings.lock_link.."\nLock flood: "..settings.flood.."\nFlood sensitivity : "..NUM_MSG_MAX.."\nLock spam: "..settings.lock_spam.."\nLock Arabic: "..settings.lock_arabic.."\nLock Member: "..settings.lock_member.."\nLock RTL: "..settings.lock_rtl.."\nLock Tgservice : "..settings.lock_tgservice.."\nLock sticker: "..settings.lock_sticker.."\nPublic: "..settings.public.."\nStrict settings: "..settings.strict
-  return text
+	local i = 1
+  local message = ' <code>لیست مدیران گروه :</code>\n'
+  for k,v in pairs(data[tostring(msg.to.id)]['moderators']) do
+   message = message ..i..' -> <code>'..v..'</code><b>[' ..k.. ']</b> \n'
+  i = i + 1
+  end
+  local text = ""..message.."<code>تنظیمات سوپرگروه </code>\n\n<code>قفل لینک:            =    </code>"..settings.lock_link.."\n<code>قفل ربات:            =    </code>"..settings.lock_bots.."\n<code>قفل استیکر:          =    </code> "..settings.lock_sticker.."\n<code>قفل فحش:           =    </code> "..settings.lock_fosh.."\n<code>قفل فلود:            =    </code> "..settings.flood.."\n<code>قفل فوروارد:           =    </code>"..settings.lock_fwd.."\n<code>قفل اسپم:           =    </code> "..settings.lock_spam.."\n<code>قفل عربی:            =    </code> "..settings.lock_arabic.."\n<code>قفل اعضا:            =     </code> "..settings.lock_member.."\n<code>قفل ار تی ال:         =    </code> "..settings.lock_rtl.."\n<code>قفل سرویس تلگرام:    =    </code> "..settings.lock_tgservice.."\n<code>تنظیمات عمومی:       =    </code> "..settings.public.."\n<code>سخت گیرانه:          =    </code> "..settings.strict.."\n〰〰〰〰〰〰〰〰〰〰\n"..mutes_list(msg.to.id).."\n〰〰〰〰〰〰〰〰〰〰\n<code>مدل حساسیت:</code> <b>"..NUM_MSG_MAX.."</b>\n<code>مدل گروه:</code> <i>"..groupmodel.."</i>"
+  text = string.gsub(text, 'normal', 'معمولی')
+  text = string.gsub(text, 'no', '<i>خاموش</i>')
+  text = string.gsub(text, 'yes', '<i>فعال</i>')
+  text = string.gsub(text, 'free', 'رایگان')
+  text = string.gsub(text, 'vip', 'اختصاصی')
+  text = string.gsub(text, 'realm', 'ریلیم')
+  text = string.gsub(text, 'support', 'ساپورت')
+  text = string.gsub(text, 'feedback', 'پشتیبانی')
+  text = string.gsub(text, 'Mute Photo', '<code>قفل عکس</code>')
+  text = string.gsub(text, 'Mute Text', '<code>قفل متن</code>')
+  text = string.gsub(text, 'Mute Documents', '<code>قفل فایل</code>')
+  text = string.gsub(text, 'Mute Video', '<code>قفل فیلم</code>')
+  text = string.gsub(text, 'Mute All', '<code>قفل همه</code>')
+  text = string.gsub(text, 'Mute Gifs', '<code>قفل گیف،تصاویر متحرک</code>')
+  text = string.gsub(text, 'Mute Audio', '<code>قفل صدا،وویس</code>')
+  return reply_msg(msg.id, text, ok_cb, false)
 end
 
 local function promote_admin(receiver, member_username, user_id)
@@ -2054,12 +2075,67 @@ local function run(msg, matches)
 			savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested group rules")
 			return get_rules(msg, data)
 		end
-
+		if matches[1] == 'setgpmodel' or matches[1] == 'تنظیم مدل گروه' then
+	  if not is_sudo(msg) then
+       return "فقط برای سودو❗️"
+      end
+      if matches[2] == 'realm' or matches[2] == 'ریلیم' then
+        if groupmodel ~= 'realm' then
+          data[tostring(msg.to.id)]['settings']['groupmodel'] = 'realm'
+          save_data(_config.moderation.data, data)
+        end
+        return 'Group model has been changed to realm'
+      end
+      if matches[2] == 'support' or matches[2] == 'ساپورت' then
+        if groupmodel ~= 'support' then
+          data[tostring(msg.to.id)]['settings']['groupmodel'] = 'support'
+          save_data(_config.moderation.data, data)
+        end
+        return 'Group model has been changed to support'
+      end
+      if matches[2] == 'feedback' or matches[2] == 'پشتیبانی' then
+        if groupmodel ~= 'feedback' then
+          data[tostring(msg.to.id)]['settings']['groupmodel'] = 'feedback'
+          save_data(_config.moderation.data, data)
+        end
+        return 'Group model has been changed to feedback'
+      end
+      if matches[2] == 'vip' or matches[2] == 'اختصاصی' then
+        if groupmodel ~= 'vip' then
+          data[tostring(msg.to.id)]['settings']['groupmodel'] = 'vip'
+          save_data(_config.moderation.data, data)
+        end
+        return 'Group model has been changed to vip'
+      end
+	    if matches[2] == 'free' or matches[2] == 'رایگان' then
+        if groupmodel ~= 'free' then
+          data[tostring(msg.to.id)]['settings']['groupmodel'] = 'free'
+          save_data(_config.moderation.data, data)
+        end
+        return 'Group model has been changed to free'
+      end
+	     if matches[2] == 'name' or matches[2] == 'نام' then
+        if groupmodel ~= ""..string.gsub(msg.to.print_name, "_", " ").."" then
+          data[tostring(msg.to.id)]['settings']['groupmodel'] = ""..string.gsub(msg.to.print_name, "_", " ")..""
+          save_data(_config.moderation.data, data)
+        end
+        return 'Group model has been changed to name'
+      end
+      if matches[2] == 'normal' or matches[2] == 'متوسط' then
+        if groupmodel ~= 'normal' then
+          data[tostring(msg.to.id)]['settings']['groupmodel'] = 'normal'
+          save_data(_config.moderation.data, data)
+		  end
+          return 'Group model has been changed to normal'
+      end
+    end
+local support = '1051670668' 
 		if matches[1] == 'help' and not is_momod(msg) then
 			        local group_link = data[tostring(support)]['settings']['set_link']
 			text = '<code>لیست دستورات ربات پاورشیلد برای اعضای معمولی</code>\n\n=========================\n<b>=>!setsticker </b>\n<code>تنظیم استیکر دلخواه</code>\n========================\n<b>=>!info</b>\n<code>نمایش اطلاعات و مقام کاربر </code>\n========================\n<b>=>!keep calm - - - </b>\n<code>ارسال استیکر کیپ کالم بر اساس متن</code>\n========================\n<i>**Other funny plugins in next update</i>\n\n <i>Channel :</i>\n@powershield_team\n\n<i>Support link :</i> \n'..group_link..''
 			reply_msg(msg.id, text, ok_cb, false)
 		elseif matches[1] == 'help' and is_momod(msg) then
+			        local group_link = data[tostring(support)]['settings']['set_link']
 			text = '<code>راهنمای انگلیسی ربات دوزبانه پاورشیلد </code>\n〰〰〰〰〰〰〰〰〰〰〰〰\n\n<code> درباره گروه:</code>\n<b> setname [name]</b>\n<code>تنظیم نام</code>\n<b> setphoto</b>\n<code> تنظیم عکس</code>\n<b> set[rules|about|wlc] </b>\n<code> تنظیم قوانین|درباره|خوش آمدگویی گروه </code>\n<b> clean [rules|about]</b>\n<code>پاکسازی قوانین| درباره</code> \n<b> delwlc</b>\n<code> پاکسازی متن خوش آمدگویی</code>\n〰〰〰〰〰〰〰〰〰〰〰〰\n<code>تنظیمات گروه </code>\n\n<b> [lock|unlock] [links|contacts|flood|fosh|arabic|rtl|tgservice|fwd|member|sticker|strict|all]</b>\n<code> قفل|باز کردن لینک|شماره|اسپم|فش|عربی|ار تی ال|سرویس تلگرام|فوروارد|اعضا|استیکر|استریکت|همه </code>\n<code> قفل استریکت = پاک کردن پیام کاربر و بلاک فرد از گروه</code>\n<code>  قفل آر تی ال = اگه کسی پیام بلند بفرسته پیامش پاک میشه\n</code>\n<b> [mute|unmute][video|photo|audio|text|gif|documents|all]</b>\n<code> قفل|باز کردن فیلم صدا|نوشته|عکس|فایل|همه</code>\n<b> muteslist</b>\n<code> لیست رسانه های قفل شده</code>\n\n<b> muteuser [reply|@username]</b>\n<code> سکوت|درآوردن سکوت فردی در گروه</code>\n<b> mutelist</b>\n<code> لیست افراد سکوت</code>\n<b> clean [mutelist]</b>\n<code> پاک کردن افراد سکوت</code>\n<b> setflood [number]</b>\n<code> تنظیم حساسیت به اسپم</code>\n\n〰〰〰〰〰〰〰〰〰〰〰〰\n<code> دستورات مدیریتی</code>\n\n<b> [admin|demoteadmin] [reply|@username] </b> \n<code>ادمین کردن کاربر در سوپرگروه</code>\n<b>admins </b>\n<code>نشان دادن ادمین های سوپرگروه</code>\n<b> [block|kick|ban] [reply|@username]</b>\n<code> اخراج فرد با شناسه یا ریپلای</code>\n<b> [promote|demote] [reply|@username]</b>\n<code> مقام دادن و صلب مقام فرد</code>\n<b> admins</b>\n<code> لیست ادمین های سوپرگروه</code>\n<b> modlist</b> \n<code> لیست مدیران فرد گروه در ربات</code> \n<b> bots </b>\n<code> لیست رباتهای در گروه</code>\n<b> clean bots</b>\n<code> پاک کردن بوتها در گروه</code>\n<b> del [reply]</b>\n<code> پاک کردن پیام مورد نظر با ریپلای</code>\n<b> link</b>\n<code> دریافت لینک</code>\n<b> setlink</b>\n<code> اگر ربات صاحب گروه نیست ازین دستور برای ثبت لینک استفاده کنید</code>\n<b> newlink</b>\n<code> لینک جدید</code>\n<b> settings</b>\n<code> دریافت تنظیمات و اطلاعات گروه </code>\n\n〰〰〰〰〰〰〰〰〰〰〰〰\n<b> setlang [fa|en]</b>\n<code>تنظیم زبان فارسی و انگلیسی</code>\n<i>برای مشاهده راهنمای فارسی عبارت "راهنما" را ارسال کنید </i>\n\nدرصورت داشتن هم مشکلی یا به ساپورت ما مراجعه کنید یا دستور /addsudo رو بزنید\n ترجیحا به ساپورت مراجعه کنید \nدستورات هم بصورت با علامت و هم بی علامت میباشند \n<i>Channel :</i> @powershield\n<i>Link Support :</i>\n'..group_link..''
 			reply_msg(msg.id, text, ok_cb, false)
 		end
