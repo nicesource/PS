@@ -221,11 +221,11 @@ local function lock_group_bots(msg, data, target)
   if not is_momod(msg) then
     return
   end
-  local group_bot_lock = data[tostring(target)]['settings']['lock_bot']
-  if group_bot_lock == 'yes' then
+  local group_bots_lock = data[tostring(target)]['settings']['lock_bots']
+  if group_bots_lock == 'yes' then
     return 'Bot adding is already locked'
   else
-    data[tostring(target)]['settings']['lock_bot'] = 'yes'
+    data[tostring(target)]['settings']['lock_bots'] = 'yes'
     save_data(_config.moderation.data, data)
     return 'Bot adding has been locked'
   end
@@ -235,11 +235,11 @@ local function unlock_group_bots(msg, data, target)
   if not is_momod(msg) then
     return
   end
-  local group_bot_lock = data[tostring(target)]['settings']['lock_bot']
-  if group_bot_lock == 'no' then
+  local group_bots_lock = data[tostring(target)]['settings']['lock_bots']
+  if group_bots_lock == 'no' then
     return 'Bot adding is not locked'
   else
-    data[tostring(target)]['settings']['lock_bot'] = 'no'
+    data[tostring(target)]['settings']['lock_bots'] = 'no'
     save_data(_config.moderation.data, data)
     return 'Bot adding has been unlocked'
   end
@@ -270,6 +270,34 @@ local function unlock_group_fosh(msg, data, target)
     data[tostring(target)]['settings']['lock_fosh'] = 'no'
     save_data(_config.moderation.data, data)
     return 'Fosh has been unlocked'
+  end
+end
+--------
+local function lock_group_fwd(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_fwd_lock = data[tostring(target)]['settings']['lock_fwd']
+  if group_fwd_lock == 'yes' then
+    return 'Forward is already locked'
+  else
+    data[tostring(target)]['settings']['lock_fwd'] = 'yes'
+    save_data(_config.moderation.data, data)
+    return 'Forward has been locked'
+  end
+end
+
+local function unlock_group_fwd(msg, data, target)
+  if not is_momod(msg) then
+    return
+  end
+  local group_fwd_lock = data[tostring(target)]['settings']['lock_fwd']
+  if group_fwd_lock == 'no' then
+    return 'Forward is not locked'
+  else
+    data[tostring(target)]['settings']['lock_fwd'] = 'no'
+    save_data(_config.moderation.data, data)
+    return 'Forward has been unlocked'
   end
 end
 --------
@@ -621,6 +649,11 @@ end
 			data[tostring(target)]['settings']['lock_tgservice'] = 'no'
 		end
 	end
+	if data[tostring(target)]['settings'] then
+		if not data[tostring(target)]['settings']['lock_fwd'] then
+			data[tostring(target)]['settings']['lock_fwd'] = 'no'
+		end
+	end
 	 if data[tostring(target)]['settings'] then
 		if not data[tostring(target)]['settings']['lock_fosh'] then
 			data[tostring(target)]['settings']['lock_fosh'] = 'no'
@@ -643,7 +676,7 @@ end
    message = message ..i..' -> <code>'..v..'</code><b>[' ..k.. ']</b> \n'
   i = i + 1
   end
-  local text = ""..message.."<code>تنظیمات سوپرگروه </code>\n\n<code>قفل لینک:            =    </code>"..settings.lock_link.."\n<code>قفل ربات:            =    </code>"..settings.lock_bots.."\n<code>قفل استیکر:          =    </code> "..settings.lock_sticker.."\n<code>قفل فحش:           =    </code> "..settings.lock_fosh.."\n<code>قفل فلود:            =    </code> "..settings.flood.."\n<code>قفل فوروارد:           =    </code>"..settings.lock_fwd.."\n<code>قفل اسپم:           =    </code> "..settings.lock_spam.."\n<code>قفل عربی:            =    </code> "..settings.lock_arabic.."\n<code>قفل اعضا:            =     </code> "..settings.lock_member.."\n<code>قفل ار تی ال:         =    </code> "..settings.lock_rtl.."\n<code>قفل سرویس تلگرام:    =    </code> "..settings.lock_tgservice.."\n<code>تنظیمات عمومی:       =    </code> "..settings.public.."\n<code>سخت گیرانه:          =    </code> "..settings.strict.."\n〰〰〰〰〰〰〰〰〰〰\n"..mutes_list(msg.to.id).."\n〰〰〰〰〰〰〰〰〰〰\n<code>مدل حساسیت:</code> <b>"..NUM_MSG_MAX.."</b>\n<code>مدل گروه:</code> <i>"..groupmodel.."</i>"
+  local text = ""..message.."<code>تنظیمات سوپرگروه </code>\n\n<code>قفل لینک:            =    </code>"..settings.lock_link.."\n<code>قفل ربات:            =    </code>"..settings.lock_bots.."\n<code>قفل استیکر:          =    </code> "..settings.lock_sticker.."\n<code>قفل فحش:           =    </code> "..settings.lock_fosh.."\n<code>قفل فلود:            =    </code> "..settings.flood.."\n<code>قفل فوروارد:           =    </code>"..settings.lock_fwd.."\n<code>قفل شماره:           =    </code>"..settings.lock_contacts.."\n<code>قفل اسپم:           =    </code> "..settings.lock_spam.."\n<code>قفل عربی:            =    </code> "..settings.lock_arabic.."\n<code>قفل اعضا:            =     </code> "..settings.lock_member.."\n<code>قفل ار تی ال:         =    </code> "..settings.lock_rtl.."\n<code>قفل سرویس تلگرام:    =    </code> "..settings.lock_tgservice.."\n<code>تنظیمات عمومی:       =    </code> "..settings.public.."\n<code>سخت گیرانه:          =    </code> "..settings.strict.."\n〰〰〰〰〰〰〰〰〰〰\n"..mutes_list(msg.to.id).."\n〰〰〰〰〰〰〰〰〰〰\n<code>مدل حساسیت:</code> <b>"..NUM_MSG_MAX.."</b>\n<code>مدل گروه:</code> <i>"..groupmodel.."</i>"
   text = string.gsub(text, 'normal', 'معمولی')
   text = string.gsub(text, 'no', '<i>خاموش</i>')
   text = string.gsub(text, 'yes', '<i>فعال</i>')
@@ -1760,8 +1793,12 @@ local function run(msg, matches)
 				return lock_group_flood(msg, data, target)
 			end
 			if matches[2] == 'bot' then
-				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked bot ")
-				return lock_group_bot(msg, data, target)
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked bots ")
+				return lock_group_bots(msg, data, target)
+			end
+			if matches[2] == 'fwd' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked fwd ")
+				return lock_group_fwd(msg, data, target)
 			end
 			if matches[2] == 'fosh' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked fosh ")
@@ -1812,8 +1849,12 @@ local function run(msg, matches)
 				return unlock_group_flood(msg, data, target)
 			end
 			if matches[2] == 'bot' then
-				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked bot")
-				return unlock_group_bot(msg, data, target)
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked bots")
+				return unlock_group_bots(msg, data, target)
+			end
+			if matches[2] == 'fwd' then
+				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked fwd")
+				return unlock_group_fwd(msg, data, target)
 			end
 			if matches[2] == 'fosh' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked fosh")
