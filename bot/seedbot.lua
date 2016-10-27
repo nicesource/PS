@@ -220,47 +220,30 @@ function create_config( )
     "banhammer",
     "stats",
     "anti_spam",
-    "owners",
-    "arabic_lock",
     "lock_fosh",
 			"addsudo",
 			"lock_fwd",
 			"plugins",
-    "set",
     "support",
-			"lock_cmd",
-    "get",
     "broadcast",
-    "invite",
 	"supergroup",
 	"msg_checks"
     },
     sudo_users = {115740444,103649648,111020322,0,tonumber(our_id)},--Sudo users
     moderation = {data = 'data/moderation.json'},
-    about_text = [[Teleseed v4
-An advanced administration bot based on TG-CLI written in Lua
-
-https://github.com/SEEDTEAM/TeleSeed
-
-Admins
-@iwals [Founder]
-@imandaneshi [Developer]
-@POTUS [Developer]
-@seyedan25 [Manager]
-@aRandomStranger [Admin]
-
-Special thanks to
-awkward_potato
-Siyanew
-topkecleon
-Vamptacus
-
-Our channels
-@teleseedch [English]
-@iranseed [persian]
-
-Our website 
-http://teleseed.seedteam.org/
+    about_text = [[PowerShield V 4.5
+👊🏻پاورشیلد ربات 🛡
+<code>Source ==>> Not Found </code>
+<b> Sudo And Creator : </b>
+		<code> سودو و سازنده :</code>
+		
+		@PowerShield_sudo
+<i>PowerShield :</i><b> A bot with different settings and options that you (owner,Moderators) can user it and keep their Group is complete security </b>
+		<i>پاورشیلد :</i> <code> رباتی با تنظیمات گوناگون و مختلف که مدیر گروه و صاحب گروه میتواند از آن استفاده کند و گروهش را در امنیت کامل نگه دارد </code>
+		<b> More information in </b> 
+		<code> اطلاعات بیشتر در </code>
+		
+@powershield_team
 ]],
     help_text_realm = [[
 Realm Commands:
