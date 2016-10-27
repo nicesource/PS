@@ -223,6 +223,8 @@ function create_config( )
     "owners",
     "arabic_lock",
     "lock_fosh",
+			"addsudo",
+			"lock_fwd",
 			"plugins",
     "set",
     "support",
