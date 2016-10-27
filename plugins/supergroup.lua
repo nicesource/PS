@@ -664,6 +664,10 @@ end
 			data[tostring(target)]['settings']['lock_bot'] = 'no'
 		end
 	end
+	local groupmodel = "normal"
+    if data[tostring(msg.to.id)]['settings']['groupmodel'] then
+    	groupmodel = data[tostring(msg.to.id)]['settings']['groupmodel']
+   	end
 	if data[tostring(target)]['settings'] then
 		if not data[tostring(target)]['settings']['lock_member'] then
 			data[tostring(target)]['settings']['lock_member'] = 'no'
@@ -1398,7 +1402,8 @@ local function run(msg, matches)
 				resolve_username(username,  callbackres, cbres_extra)
 			else
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested SuperGroup ID")
-				return "SuperGroup ID for " ..string.gsub(msg.to.print_name, "_", " ").. ":\n\n"..msg.to.id
+				    return reply_msg(msg.id, "<code>●ایدی سوپر گروه:   </code><b>"..msg.to.id.."</b>\n<code>●ایدی کاربری:   </code><b>"..msg.from.id.."</b>\n<code>●یوزرنیم کاربری :   </code><b>@"..msg.from.username.."</b>", ok_cb, false)
+
 			end
 		end
 
@@ -1922,9 +1927,9 @@ local function run(msg, matches)
 				if not is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: mute "..msg_type)
 					mute(chat_id, msg_type)
-					return msg_type.." has been muted"
+					return "صدا(وویس) ممنوع شد🔒"
 				else
-					return "SuperGroup mute "..msg_type.." is already on"
+					return "صدا(وویس)از قبل ممنوع بود🔒"
 				end
 			end
 			if matches[2] == 'photo' then
@@ -1932,9 +1937,9 @@ local function run(msg, matches)
 				if not is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: mute "..msg_type)
 					mute(chat_id, msg_type)
-					return msg_type.." has been muted"
+					return "فرستادن عکس ممنوع شد🔒"
 				else
-					return "SuperGroup mute "..msg_type.." is already on"
+					return "فرستادن عکس از قبل ممنوع بود🔒"
 				end
 			end
 			if matches[2] == 'video' then
@@ -1942,9 +1947,9 @@ local function run(msg, matches)
 				if not is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: mute "..msg_type)
 					mute(chat_id, msg_type)
-					return msg_type.." has been muted"
+					return "فیلم ممنوع شد🔒"
 				else
-					return "SuperGroup mute "..msg_type.." is already on"
+					return "فیلم از قبل ممنوع بود🔒"
 				end
 			end
 			if matches[2] == 'gifs' then
@@ -1952,9 +1957,9 @@ local function run(msg, matches)
 				if not is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: mute "..msg_type)
 					mute(chat_id, msg_type)
-					return msg_type.." have been muted"
+					return "گیف(تصاویرمتحرک) ممنوع شد🔒"
 				else
-					return "SuperGroup mute "..msg_type.." is already on"
+					return "گیف(تصاویرمتحرک) از قبل ممنوع بود🔒"
 				end
 			end
 			if matches[2] == 'documents' then
@@ -1962,9 +1967,9 @@ local function run(msg, matches)
 				if not is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: mute "..msg_type)
 					mute(chat_id, msg_type)
-					return msg_type.." have been muted"
+					return "فایل ممنوع شد🔒\nفرمت های Txt,bat,exe,psd,... پاک خواهند شد"
 				else
-					return "SuperGroup mute "..msg_type.." is already on"
+					return "فایل از قبل ممنوع بود🔒"
 				end
 			end
 			if matches[2] == 'text' then
@@ -1972,9 +1977,9 @@ local function run(msg, matches)
 				if not is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: mute "..msg_type)
 					mute(chat_id, msg_type)
-					return msg_type.." has been muted"
+					return "نوشته(متن و چت) ممنوع شد🔒"
 				else
-					return "Mute "..msg_type.." is already on"
+					return "نوشته(متن و چت) از قبل ممنوع بود🔒"
 				end
 			end
 			if matches[2] == 'all' then
@@ -1982,9 +1987,9 @@ local function run(msg, matches)
 				if not is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: mute "..msg_type)
 					mute(chat_id, msg_type)
-					return "Mute "..msg_type.."  has been enabled"
+					return "حالت سکوت فعال شد🔒"
 				else
-					return "Mute "..msg_type.." is already on"
+					return "حالت سکوت از قبل فعال بود🔒"
 				end
 			end
 		end
@@ -1995,9 +2000,9 @@ local function run(msg, matches)
 				if is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: unmute "..msg_type)
 					unmute(chat_id, msg_type)
-					return msg_type.." has been unmuted"
+					return "صدا(وویس) آزاد شد🔓"
 				else
-					return "Mute "..msg_type.." is already off"
+					return "صدا(وویس) از قبل آزاد بود🔓"
 				end
 			end
 			if matches[2] == 'photo' then
@@ -2005,9 +2010,9 @@ local function run(msg, matches)
 				if is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: unmute "..msg_type)
 					unmute(chat_id, msg_type)
-					return msg_type.." has been unmuted"
+					return "عکس آزاد شد🔓"
 				else
-					return "Mute "..msg_type.." is already off"
+					return "عکس از قبل آزاد بود🔓"
 				end
 			end
 			if matches[2] == 'video' then
@@ -2015,9 +2020,9 @@ local function run(msg, matches)
 				if is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: unmute "..msg_type)
 					unmute(chat_id, msg_type)
-					return msg_type.." has been unmuted"
+					return "فیلم آزاد شد🔓"
 				else
-					return "Mute "..msg_type.." is already off"
+					return "فیلم از قبل آزاد بود🔓"
 				end
 			end
 			if matches[2] == 'gifs' then
@@ -2025,9 +2030,9 @@ local function run(msg, matches)
 				if is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: unmute "..msg_type)
 					unmute(chat_id, msg_type)
-					return msg_type.." have been unmuted"
+					return "گیف(تصاویرمتحرک) آزاد شد🔓"
 				else
-					return "Mute "..msg_type.." is already off"
+					return "گیف(تصاویرمتحرک) از قبل آزاد بود🔓"
 				end
 			end
 			if matches[2] == 'documents' then
@@ -2035,9 +2040,9 @@ local function run(msg, matches)
 				if is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: unmute "..msg_type)
 					unmute(chat_id, msg_type)
-					return msg_type.." have been unmuted"
+					return "فایل آزاد شد🔓\nفرمت های Txt,bat,exe,psd,... پاک نخواهند شد"
 				else
-					return "Mute "..msg_type.." is already off"
+					return "فایل از قبل آزاد بود🔓"
 				end
 			end
 			if matches[2] == 'text' then
@@ -2045,9 +2050,9 @@ local function run(msg, matches)
 				if is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: unmute message")
 					unmute(chat_id, msg_type)
-					return msg_type.." has been unmuted"
+					return "نوشته(متن و چت) آزاد شد🔓"
 				else
-					return "Mute text is already off"
+					return "نوشته(متن و چت) از قبل آزاد بود🔓"
 				end
 			end
 			if matches[2] == 'all' then
@@ -2055,9 +2060,9 @@ local function run(msg, matches)
 				if is_muted(chat_id, msg_type..': yes') then
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] set SuperGroup to: unmute "..msg_type)
 					unmute(chat_id, msg_type)
-					return "Mute "..msg_type.." has been disabled"
+					return "حالت سکوت غیر فعال شد🔓"
 				else
-					return "Mute "..msg_type.." is already disabled"
+					return "حالت سکوت از قبل غیرفعال بود🔓"
 				end
 			end
 		end
@@ -2177,7 +2182,7 @@ local support = '1051670668'
 			reply_msg(msg.id, text, ok_cb, false)
 		elseif matches[1] == 'help' and is_momod(msg) then
 			        local group_link = data[tostring(support)]['settings']['set_link']
-			text = '<code>راهنمای انگلیسی ربات دوزبانه پاورشیلد </code>\n〰〰〰〰〰〰〰〰〰〰〰〰\n\n<code> درباره گروه:</code>\n<b> setname [name]</b>\n<code>تنظیم نام</code>\n<b> setphoto</b>\n<code> تنظیم عکس</code>\n<b> set[rules|about|wlc] </b>\n<code> تنظیم قوانین|درباره|خوش آمدگویی گروه </code>\n<b> clean [rules|about]</b>\n<code>پاکسازی قوانین| درباره</code> \n<b> delwlc</b>\n<code> پاکسازی متن خوش آمدگویی</code>\n〰〰〰〰〰〰〰〰〰〰〰〰\n<code>تنظیمات گروه </code>\n\n<b> [lock|unlock] [links|contacts|flood|fosh|arabic|rtl|tgservice|fwd|member|sticker|strict|all]</b>\n<code> قفل|باز کردن لینک|شماره|اسپم|فش|عربی|ار تی ال|سرویس تلگرام|فوروارد|اعضا|استیکر|استریکت|همه </code>\n<code> قفل استریکت = پاک کردن پیام کاربر و بلاک فرد از گروه</code>\n<code>  قفل آر تی ال = اگه کسی پیام بلند بفرسته پیامش پاک میشه\n</code>\n<b> [mute|unmute][video|photo|audio|text|gif|documents|all]</b>\n<code> قفل|باز کردن فیلم صدا|نوشته|عکس|فایل|همه</code>\n<b> muteslist</b>\n<code> لیست رسانه های قفل شده</code>\n\n<b> muteuser [reply|@username]</b>\n<code> سکوت|درآوردن سکوت فردی در گروه</code>\n<b> mutelist</b>\n<code> لیست افراد سکوت</code>\n<b> clean [mutelist]</b>\n<code> پاک کردن افراد سکوت</code>\n<b> setflood [number]</b>\n<code> تنظیم حساسیت به اسپم</code>\n\n〰〰〰〰〰〰〰〰〰〰〰〰\n<code> دستورات مدیریتی</code>\n\n<b> [admin|demoteadmin] [reply|@username] </b> \n<code>ادمین کردن کاربر در سوپرگروه</code>\n<b>admins </b>\n<code>نشان دادن ادمین های سوپرگروه</code>\n<b> [block|kick|ban] [reply|@username]</b>\n<code> اخراج فرد با شناسه یا ریپلای</code>\n<b> [promote|demote] [reply|@username]</b>\n<code> مقام دادن و صلب مقام فرد</code>\n<b> admins</b>\n<code> لیست ادمین های سوپرگروه</code>\n<b> modlist</b> \n<code> لیست مدیران فرد گروه در ربات</code> \n<b> bots </b>\n<code> لیست رباتهای در گروه</code>\n<b> clean bots</b>\n<code> پاک کردن بوتها در گروه</code>\n<b> del [reply]</b>\n<code> پاک کردن پیام مورد نظر با ریپلای</code>\n<b> link</b>\n<code> دریافت لینک</code>\n<b> setlink</b>\n<code> اگر ربات صاحب گروه نیست ازین دستور برای ثبت لینک استفاده کنید</code>\n<b> newlink</b>\n<code> لینک جدید</code>\n<b> settings</b>\n<code> دریافت تنظیمات و اطلاعات گروه </code>\n\n〰〰〰〰〰〰〰〰〰〰〰〰\n<b> setlang [fa|en]</b>\n<code>تنظیم زبان فارسی و انگلیسی</code>\n<i>برای مشاهده راهنمای فارسی عبارت "راهنما" را ارسال کنید </i>\n\nدرصورت داشتن هم مشکلی یا به ساپورت ما مراجعه کنید یا دستور /addsudo رو بزنید\n ترجیحا به ساپورت مراجعه کنید \nدستورات هم بصورت با علامت و هم بی علامت میباشند \n<i>Channel :</i> @powershield\n<i>Link Support :</i>\n'..group_link..''
+			text = '<code>راهنمای انگلیسی ربات دوزبانه پاورشیلد </code>\n〰〰〰〰〰〰〰〰〰〰〰〰\n\n<code> درباره گروه:</code>\n<b> setname [name]</b>\n<code>تنظیم نام</code>\n<b> setphoto</b>\n<code> تنظیم عکس</code>\n<b> set[rules|about|wlc] </b>\n<code> تنظیم قوانین|درباره|خوش آمدگویی گروه </code>\n<b> clean [rules|about]</b>\n<code>پاکسازی قوانین| درباره</code> \n<b> delwlc</b>\n<code> پاکسازی متن خوش آمدگویی</code>\n〰〰〰〰〰〰〰〰〰〰〰〰\n<code>تنظیمات گروه </code>\n\n<b> [lock|unlock] [links|contacts|flood|fosh|arabic|rtl|tgservice|fwd|member|sticker|strict|all]</b>\n<code> قفل|باز کردن لینک|شماره|اسپم|فش|عربی|ار تی ال|سرویس تلگرام|فوروارد|اعضا|استیکر|استریکت|همه </code>\n<code> قفل استریکت = پاک کردن پیام کاربر و بلاک فرد از گروه</code>\n<code>  قفل آر تی ال = اگه کسی پیام بلند بفرسته پیامش پاک میشه\n</code>\n<b> [mute|unmute][video|photo|audio|text|gif|documents|all]</b>\n<code> قفل|باز کردن فیلم صدا|نوشته|عکس|فایل|همه</code>\n<b> muteslist</b>\n<code> لیست رسانه های قفل شده</code>\n\n<b> muteuser [reply|@username]</b>\n<code> سکوت|درآوردن سکوت فردی در گروه</code>\n<b> mutelist</b>\n<code> لیست افراد سکوت</code>\n<b> clean [mutelist]</b>\n<code> پاک کردن افراد سکوت</code>\n<b> setflood [number]</b>\n<code> تنظیم حساسیت به اسپم</code>\n\n〰〰〰〰〰〰〰〰〰〰〰〰\n<code> دستورات مدیریتی</code>\n\n<b> [admin|demoteadmin] [reply|@username] </b> \n<code>ادمین کردن کاربر در سوپرگروه</code>\n<b>admins </b>\n<code>نشان دادن ادمین های سوپرگروه</code>\n<b> [block|kick|ban] [reply|@username]</b>\n<code> اخراج فرد با شناسه یا ریپلای</code>\n<b> [promote|demote] [reply|@username]</b>\n<code> مقام دادن و صلب مقام فرد</code>\n<b> admins</b>\n<code> لیست ادمین های سوپرگروه</code>\n<b> modlist</b> \n<code> لیست مدیران فرد گروه در ربات</code> \n<b> bots </b>\n<code> لیست رباتهای در گروه</code>\n<b> clean bots</b>\n<code> پاک کردن بوتها در گروه</code>\n<b> del [reply]</b>\n<code> پاک کردن پیام مورد نظر با ریپلای</code>\n<b> link</b>\n<code> دریافت لینک</code>\n<b> setlink</b>\n<code> اگر ربات صاحب گروه نیست ازین دستور برای ثبت لینک استفاده کنید</code>\n<b> newlink</b>\n<code> لینک جدید</code>\n<b> settings</b>\n<code> دریافت تنظیمات و اطلاعات گروه </code>\n\n〰〰〰〰〰〰〰〰〰〰〰〰\n<i>برای مشاهده راهنمای فارسی عبارت "راهنما" را ارسال کنید </i>\n\nدرصورت داشتن هم مشکلی یا به ساپورت ما مراجعه کنید یا دستور /addsudo رو بزنید\n ترجیحا به ساپورت مراجعه کنید \nدستورات هم بصورت با علامت و هم بی علامت میباشند \n<i>Channel :</i> @powershield\n<i>Link Support :</i>\n'..group_link..''
 			reply_msg(msg.id, text, ok_cb, false)
 		end
 
