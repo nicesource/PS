@@ -251,7 +251,7 @@ local function lock_group_fosh(msg, data, target)
   end
   local group_fosh_lock = data[tostring(target)]['settings']['lock_fosh']
   if group_fosh_lock == 'yes' then
-    return 'فحش دادن از قبل ممنوع بود🔒
+    return 'فحش دادن از قبل ممنوع بود🔒'
   else
     data[tostring(target)]['settings']['lock_fosh'] = 'yes'
     save_data(_config.moderation.data, data)
