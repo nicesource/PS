@@ -2,10 +2,11 @@ do
 
 local function pre_process(msg)
     
+    --Checking mute
     local hash = 'mate:'..msg.to.id
-    if redis:get(hash) and msg.fwd_from and not is_momod(msg)  then
-	  channel_kick_user('channel#id'..msg.to.id,'user#id'..msg.from.id, ok_cb, false)
-            return "fwd was locked"
+    if redis:get(hash) and msg.fwd_from and not is_sudo(msg) and not is_owner(msg) and not is_momod(msg) and not is_admin1(msg)  then
+            delete_msg(msg.id, ok_cb, true)
+            return ""
         end
     
         return msg
@@ -15,40 +16,28 @@ local function pre_process(msg)
 
 
 local function run(msg, matches)
-    channel_id = msg.to.id
+    chat_id =  msg.to.id
     
-    if matches[1] == 'lock' and is_momod(msg) then
+    if is_momod(msg) and matches[1] == 'lock' then
       
             
                     local hash = 'mate:'..msg.to.id
                     redis:set(hash, true)
-                    return "قفل فروارد فعال شد"
-  elseif matches[1] == 'unlock' and is_momod(msg) then
+                    return ""
+  elseif is_momod(msg) and matches[1] == 'unlock' then
                     local hash = 'mate:'..msg.to.id
                     redis:del(hash)
-                    return "قفل فروارد غیر فعال شد"
-					end
-					if matches[1] == 'status' then
-                    local hash = 'mate:'..msg.to.id
-                    if redis:get(hash) then
-                    return "fwd is locked"
-					else 
-					return "fwd is not locked"
+                    return ""
+end
 
 end
-end
-end
+
 return {
     patterns = {
         '^[/!#](lock) fwd$',
-        '^[/!#](unlock) fwd$',
-		'^[/!#]fwd (status)$',
+        '^[/!#](unlock) fwd$'
     },
     run = run,
     pre_process = pre_process
 }
 end
-
---fix for channel by @telemanager_ch
-
---Tnx to Sbss Team
