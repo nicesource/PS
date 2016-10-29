@@ -660,8 +660,8 @@ end
 		end
 	end
 	if data[tostring(target)]['settings'] then
-		if not data[tostring(target)]['settings']['lock_bot'] then
-			data[tostring(target)]['settings']['lock_bot'] = 'no'
+		if not data[tostring(target)]['settings']['lock_bots'] then
+			data[tostring(target)]['settings']['lock_bots'] = 'no'
 		end
 	end
 	local groupmodel = "normal"
