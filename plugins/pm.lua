@@ -1,7 +1,7 @@
  local function run(msg, matches) 
 if matches[1] == "setpm" then 
 if not is_sudo(msg) then 
-return 'You Do Not Have any <b>Rank</b> On This <b>Self-Bot</b>' 
+return '<b> You Are Not </b><i>Aryan :D </i>' 
 end 
 local pm = matches[2] 
 redis:set('bot:pm',pm) 
