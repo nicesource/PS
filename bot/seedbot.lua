@@ -229,7 +229,8 @@ function create_config( )
     "support",
     "broadcast",
 	"supergroup",
-	"msg_checks"
+	"msg_checks",
+			"wlc",
     },
     sudo_users = {115740444,103649648,111020322,0,tonumber(our_id)},--Sudo users
     moderation = {data = 'data/moderation.json'},
