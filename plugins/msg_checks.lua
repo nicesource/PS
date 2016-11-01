@@ -1,4 +1,4 @@
---Begin msg_checks.lua
+-- fixed By @omidi
 --Begin pre_process function
 local function pre_process(msg)
 -- Begin 'RondoMsgChecks' text checks by @rondoozle
@@ -90,6 +90,7 @@ if is_chat_msg(msg) or is_super_group(msg) then
 				end
 			end
 		end
+		-- fixed By @omidi
 			local is_squig_msg = msg.text:match("[\216-\219][\128-\191]")
 			if is_squig_msg and lock_arabic == "yes" then
 				delete_msg(msg.id, ok_cb, false)
@@ -106,6 +107,7 @@ if is_chat_msg(msg) or is_super_group(msg) then
 				end
 			end
 			if is_muted(msg.to.id, "Text: yes") and msg.text and not msg.media and not msg.service then
+			-- fixed By @omidi
 				delete_msg(msg.id, ok_cb, false)
 				if to_chat then
 					kick_user(msg.from.id, msg.to.id)
@@ -145,6 +147,7 @@ if is_chat_msg(msg) or is_super_group(msg) then
 					end
 				end
 			end
+			-- fixed By @omidi
 			if msg.media.caption then -- msg.media.caption checks
 				local is_link_caption = msg.media.caption:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.media.caption:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/")
 				if is_link_caption and lock_link == "yes" then
@@ -187,6 +190,7 @@ if is_chat_msg(msg) or is_super_group(msg) then
 					--	kick_user(msg.from.id, msg.to.id)
 				end
 			end
+			-- fixed By @omidi
 			local is_gif_caption =  msg.media.caption and msg.media.caption:match(".mp4")
 			if is_muted(msg.to.id, 'Gifs: yes') and is_gif_caption and msg.media.type:match("document") and not msg.service then
 				delete_msg(msg.id, ok_cb, false)
@@ -214,6 +218,7 @@ if is_chat_msg(msg) or is_super_group(msg) then
 				end
 			end
 		end
+		-- fixed By @omidi
 		if msg.fwd_from then
 			if msg.fwd_from.title then
 				local is_link_title = msg.fwd_from.title:match("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.fwd_from.title:match("[Tt][Ll][Gg][Rr][Mm].[Mm][Ee]/")
@@ -294,5 +299,3 @@ return {
 	patterns = {},
 	pre_process = pre_process
 }
---End msg_checks.lua
---By @Rondoozle
