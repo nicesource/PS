@@ -1,7 +1,7 @@
 do
 local function run(msg, matches)
     local nme = msg.to.title
-    local r = get_receiver(msg) 
+    local r = get_receiver(msg)
     local welc = 'oo:'..msg.to.id
     local bay = 'zz:'..msg.to.id
     local xxxx = redis:get(welc)
@@ -52,21 +52,26 @@ local function run(msg, matches)
         local xxxx = ""..redis:get(welc).."\n"
 ..' '..(msg.from.print_name or '')..'\n'
           reply_msg(msg.id, xxxx, ok_cb, true)
+          elseif redis:get(welc) and matches[1]== 'channel_add_user_link' then
+        local xxxx = ""..redis:get(welc).."\n"
+..' '..(msg.from.print_name or '')..'\n'
+          reply_msg(msg.id, xxxx, ok_cb, true)
     end
 end
-return { 
-  patterns = { 
-       "^[!/#](setwlc) (.*)$", 
-       "^[!/#](setbye) (.*)$", 
+return {
+  patterns = {
+       "^[!/#](setwlc) (.*)$",
+       "^[!/#](setbye) (.*)$",
        "^[!/#](delwlc)$",
        "^[!/#](delwlc)$",
        "^[!/#](gwelc)$",
        "^[!/#](gbay)$",
-       "^!!tgservice (chat_add_user)$", 
+       "^!!tgservice (chat_add_user)$",
        "^!!tgservice (chat_add_user_link)$",
+       "^!!tgservice (channel_add_user_link)$",
        "^!!tgservice (chat_del_user)$"
-  }, 
-  run = run, 
-} 
+  },
+  run = run,
+}
 
 end
