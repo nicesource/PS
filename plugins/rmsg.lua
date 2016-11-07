@@ -15,8 +15,8 @@ local function run(msg, matches)
 return "⚜ این دستور هر نیم ساعت امکان پذیر است\n نیم ساعت شما هنوز تموم نشده است، لطفا دوباره امتحان نکنید"
 end
 redis:setex("id:"..msg.to.id..":"..msg.from.id, 60, true)
-      if tonumber(matches[2]) > 500 or tonumber(matches[2]) < 1 then
-        return "تعداد بیشتر از 500 مجاز نیست"
+      if tonumber(matches[2]) > 300 or tonumber(matches[2]) < 1 then
+        return "تعداد بیشتر از 300 مجاز نیست"
       end
       get_history(msg.to.peer_id, matches[2] + 1 , history , {chatid = msg.to.peer_id, con = matches[2]})
     else
@@ -29,7 +29,7 @@ end
 
 return {
     patterns = {
-        '^[!/#](del) (%d*)$'
+        '^[!/#](rmsg) (%d*)$'
     },
     run = run
 }
