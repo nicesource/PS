@@ -1,6 +1,6 @@
- local function run(msg, matches) 
+local function run(msg, matches) 
 if matches[1] == "setpm" then 
-if not is_sudo(msg) then 
+if not is_sudo(msg) then
 return '<b> You Are Not </b><i>Aryan :D </i>' 
 end 
 local pm = matches[2] 
@@ -31,8 +31,12 @@ redis:del("bot:pm")
 return "<b>Secretary</b> Disabled !" 
 end
  end
-
+if not is_sudo(msg) then
   if msg.to.type == "user" and msg.text then
+  if redis:get("id:"..msg.to.id..":"..msg.from.id) then
+return
+end
+redis:setex("id:"..msg.to.id..":"..msg.from.id, 36000, true)
     local hash = ('bot:pm') 
     local pm = redis:get(hash)
 if msg.from.id == 209238347 or msg.to.type == 'channel' or msg.to.type == 'chat' then
@@ -41,6 +45,7 @@ else
     reply_msg(msg.id, pm, ok_cb, false)
     end 
     end
+end
 end
 return { 
 patterns ={ 
@@ -52,3 +57,5 @@ patterns ={
 }, 
 run = run 
 }
+
+
