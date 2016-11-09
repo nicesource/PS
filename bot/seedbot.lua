@@ -244,7 +244,7 @@ function create_config( )
 		<code> سودو و سازنده :</code>
 		
 		@PowerShield_sudo
-<i>PowerShield :</i><b> A bot with different settings and options that you (owner,Moderators) can user it and keep their Group is complete security </b>
+<i>PowerShield :</i><b> A bot with different settings and options that you (owner,Moderators) can use it and keep their Group completely security </b>
 		<i>پاورشیلد :</i> <code> رباتی با تنظیمات گوناگون و مختلف که مدیر گروه و صاحب گروه میتواند از آن استفاده کند و گروهش را در امنیت کامل نگه دارد </code>
 		<b> More information in </b> 
 		<code> اطلاعات بیشتر در </code>
