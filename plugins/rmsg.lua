@@ -9,7 +9,7 @@ local function history(extra, suc, result)
   end
 end
 local function run(msg, matches)
-  if matches[1] == 'rmsg' and is_owner(msg) then
+  if matches[1] == 'del' and is_owner(msg) then
     if msg.to.type == 'channel' then
 	if redis:get("id:"..msg.to.id..":"..msg.from.id) then
 return "⚜ این دستور هر نیم ساعت امکان پذیر است\n نیم ساعت شما هنوز تموم نشده است، لطفا دوباره امتحان نکنید"
@@ -29,7 +29,7 @@ end
 
 return {
     patterns = {
-        '^[!/#](rmsg) (%d*)$'
+        '^[!/#](del) (%d*)$'
     },
     run = run
 }
