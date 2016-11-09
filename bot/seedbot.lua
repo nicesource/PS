@@ -223,6 +223,8 @@ function create_config( )
     "lock_fosh",
 			"addsudo",
 			"lock_fwd",
+			"filter",
+			"expire",
 			"pm",
 			"clean_deleted",
 			"plugins",
