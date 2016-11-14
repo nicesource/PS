@@ -680,7 +680,15 @@ end
    message = message ..i..' -> <code>'..v..'</code><b>[' ..k.. ']</b> \n'
   i = i + 1
   end
-  local text = ""..message.."<code>تنظیمات سوپرگروه </code>\n\n<code>قفل لینک:            =    </code>"..settings.lock_link.."\n<code>قفل ربات:            =    </code>"..settings.lock_bots.."\n<code>قفل استیکر:          =    </code> "..settings.lock_sticker.."\n<code>قفل فحش:           =    </code> "..settings.lock_fosh.."\n<code>قفل فلود:            =    </code> "..settings.flood.."\n<code>قفل فوروارد:           =    </code>"..settings.lock_fwd.."\n<code>قفل شماره:           =    </code>"..settings.lock_contacts.."\n<code>قفل اسپم:           =    </code> "..settings.lock_spam.."\n<code>قفل عربی:            =    </code> "..settings.lock_arabic.."\n<code>قفل اعضا:            =     </code> "..settings.lock_member.."\n<code>قفل ار تی ال:         =    </code> "..settings.lock_rtl.."\n<code>قفل سرویس تلگرام:    =    </code> "..settings.lock_tgservice.."\n<code>تنظیمات عمومی:       =    </code> "..settings.public.."\n<code>سخت گیرانه:          =    </code> "..settings.strict.."\n〰〰〰〰〰〰〰〰〰〰\n"..mutes_list(msg.to.id).."\n〰〰〰〰〰〰〰〰〰〰\n<code>مدل حساسیت:</code> <b>"..NUM_MSG_MAX.."</b>\n<code>مدل گروه:</code> <i>"..groupmodel.."</i>"
+local expiretime = redis:hget('expiretime', get_receiver(msg))
+    local expire = ''
+  if not expiretime then
+  expire = expire..'تاریخ ست نشده است'
+  else
+   local now = tonumber(os.time())
+   expire =  expire..math.floor((tonumber(expiretime) - tonumber(now)) / 86400) + 1
+ end
+  local text = ""..message.."<code>تنظیمات سوپرگروه </code>\n\n<code>قفل لینک:            =    </code>"..settings.lock_link.."\n<code>قفل ربات:            =    </code>"..settings.lock_bots.."\n<code>قفل استیکر:          =    </code> "..settings.lock_sticker.."\n<code>قفل فحش:           =    </code> "..settings.lock_fosh.."\n<code>قفل فلود:            =    </code> "..settings.flood.."\n<code>قفل فوروارد:           =    </code>"..settings.lock_fwd.."\n<code>قفل شماره:           =    </code>"..settings.lock_contacts.."\n<code>قفل اسپم:           =    </code> "..settings.lock_spam.."\n<code>قفل عربی:            =    </code> "..settings.lock_arabic.."\n<code>قفل اعضا:            =     </code> "..settings.lock_member.."\n<code>قفل ار تی ال:         =    </code> "..settings.lock_rtl.."\n<code>قفل سرویس تلگرام:    =    </code> "..settings.lock_tgservice.."\n<code>تنظیمات عمومی:       =    </code> "..settings.public.."\n<code>سخت گیرانه:          =    </code> "..settings.strict.."\n〰〰〰〰〰〰〰〰〰〰\n"..mutes_list(msg.to.id).."\n〰〰〰〰〰〰〰〰〰〰\n<code>مدل حساسیت:</code> <b>"..NUM_MSG_MAX.."</b>\n<code>مدل گروه:</code> <i>"..groupmodel.."</i>\n<code>انقضای گروه :</code> <b>"..expire.."</b>"
   text = string.gsub(text, 'normal', 'معمولی')
   text = string.gsub(text, 'no', '<i>خاموش</i>')
   text = string.gsub(text, 'yes', '<i>فعال</i>')
