@@ -133,7 +133,53 @@ end
 local text = title..admin_num..user_num..kicked_num..channel_id..channel_username
     send_large_msg(cb_extra.receiver, text)
 end
+local function promote(receiver, member_username, user_id)
+  local data = load_data(_config.moderation.data)
+  local group = string.gsub(receiver, 'channel#id', '')
+  local member_tag_username = "@"..member_username
+  if not data[group] then
+    return 
+  end
+  if data[group]['moderators'][tostring(user_id)] then
+    return 
+  end
+  data[group]['moderators'][tostring(user_id)] = member_tag_username
+  save_data(_config.moderation.data, data)
+end
 
+local function promote2(receiver, member_name, user_id)
+  local data = load_data(_config.moderation.data)
+  local group = string.gsub(receiver, 'channel#id', '')
+  local name = member_name
+  if not data[group] then
+    return 
+  end
+  if data[group]['moderators'][tostring(user_id)] then
+    return 
+  end
+  data[group]['moderators'][tostring(user_id)] = name
+  save_data(_config.moderation.data, data)
+end
+
+local function promoteadmin(cb_extra, success, result)
+local i = 1
+local chat_name = string.gsub(cb_extra.msg.to.print_name, "_", " ")
+local member_type = cb_extra.member_type	
+local text = "افراد زیر همگی در ربات مدیر شدند :"	
+for k,v in pairsByKeys(result) do
+if v.username then
+   promote(cb_extra.receiver,v.username,v.peer_id)		
+end
+if not v.username then
+   promote2(cb_extra.receiver,v.first_name,v.peer_id)		
+end		
+	        vname = v.first_name:gsub("‮", "")
+	        name = vname:gsub("_", " ")			
+		text = text.."\n"..i.." - "..name.."["..v.peer_id.."]"
+		i = i + 1		
+end
+    send_large_msg(cb_extra.receiver, text)
+end
 --Get and output members of supergroup
 local function callback_who(cb_extra, success, result)
 local text = "Members for "..cb_extra.receiver
@@ -1305,7 +1351,10 @@ local function run(msg, matches)
 			savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested SuperGroup Admins list")
 			admins = channel_get_admins(receiver,callback, {receiver = receiver, msg = msg, member_type = member_type})
 		end
-
+if matches[1]:lower() == "padmins" and is_sudo(msg) then
+	        member_type = 'Admins'
+			admins = channel_get_admins(receiver,promoteadmin, {receiver = receiver, msg = msg, member_type = member_type})
+		end
 		if matches[1] == "owner" then
 			local group_owner = data[tostring(msg.to.id)]['set_owner']
 			if not group_owner then
@@ -2306,6 +2355,7 @@ return {
 	"^[#!/](setgpmodel) (.*)$",
     "[#!/](mp) (.*)",
 	"[#!/](md) (.*)",
+	"^[!#/]([Pp][Aa][Dd][Mm][Ii][Nn][Ss])$",
     "^([https?://w]*.?telegram.me/joinchat/%S+)$",
 	--"msg.to.peer_id",
 	"%[(document)%]",
