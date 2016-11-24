@@ -1090,7 +1090,7 @@ end
 function mutes_list(chat_id)
 	local hash =  'mute:'..chat_id
 	local list = redis:smembers(hash)
-	local text = 
+	local text = ""
 	for k,v in pairsByKeys(list) do
 		text = text.."Mute "..v.."\n"
 	end
