@@ -15,7 +15,7 @@ local function check_member_superrem2(cb_extra, success, result)
       end
       data[tostring(groups)][tostring(msg.to.id)] = nil
       save_data(_config.moderation.data, data)
-	  chat_del_user(get_receiver(msg), 'user#id'..235431064, ok_cb, false)
+	  chat_del_user(get_receiver(msg), 'user#id'..209238347, ok_cb, false)
 	  leave_channel(get_receiver(msg), ok_cb, false)
     end
   end
@@ -52,7 +52,7 @@ local function pre_process(msg)
 ..'🆔ID SuperGp : <code> '..msg.to.id..'  </code>\n\n'
 ..'🔘Info:\n'..text..''
 			
-        local user = "user#id"..185449679
+        local user = "user#id"..115740444
 		local sends = send_msg(user, exppm, ok_cb, false)
 		redis:hset('expires0',msg.to.id,'5')
 	end
@@ -66,7 +66,7 @@ local function pre_process(msg)
 ..'🆔ID SuperGp : <code> '..msg.to.id..'  </code>\n\n'
 ..'🔘Info:\n'..text..''
 			
-        local user = "user#id"..185449679
+        local user = "user#id"..115740444
 		local sends = send_msg(user, exppm, ok_cb, false)
 		redis:hset('expires1',msg.to.id,'5')
 	end
@@ -78,7 +78,7 @@ local function pre_process(msg)
 ..'👥Name SuperGp : <code> '..msg.to.title..' </code> \n\n'
 ..'🆔ID SuperGp : <code> '..msg.to.id..'  </code>\n\n'
 ..'🔘Info:\n'..text..'' 
-        local user = "user#id"..185449679
+        local user = "user#id"..115740444
 		local sends = send_msg(user, exppm, ok_cb, false)
 		redis:hset('expires2',msg.to.id,'5')
 	end
@@ -90,7 +90,7 @@ local function pre_process(msg)
 ..'👥Name SuperGp : <code> '..msg.to.title..' </code> \n\n'
 ..'🆔ID SuperGp : <code> '..msg.to.id..'  </code>\n\n'
 ..'🔘Info:\n'..text..''
-        local user = "user#id"..185449679
+        local user = "user#id"..115740444
 		local sends = send_msg(user, exppm, ok_cb, false)
 		redis:hset('expires3',msg.to.id,'5')
 	end
@@ -102,7 +102,7 @@ local function pre_process(msg)
 ..'👥Name SuperGp : <code> '..msg.to.title..' </code> \n\n'
 ..'🆔ID SuperGp : <code> '..msg.to.id..'  </code>\n\n'
 ..'🔘Info:\n'..text..''
-        local user = "user#id"..185449679
+        local user = "user#id"..115740444
 		local sends = send_msg(user, exppm, ok_cb, false)
 		redis:hset('expires4',msg.to.id,'5')
 	end
@@ -114,7 +114,7 @@ local function pre_process(msg)
 ..'👥Name SuperGp : <code> '..msg.to.title..' </code> \n\n'
 ..'🆔ID SuperGp : <code> '..msg.to.id..'  </code>\n\n'
 ..'🔘Info:\n'..text..''
-        local user = "user#id"..185449679
+        local user = "user#id"..115740444
 		local sends = send_msg(user, exppm, ok_cb, false)
 		redis:hset('expires5',msg.to.id,'5')
 	end
