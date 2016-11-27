@@ -2044,43 +2044,43 @@ if matches[1]:lower() == "padmins" and is_sudo(msg) then
 			end
 			if matches[2] == 'modlist' then
 				if next(data[tostring(msg.to.id)]['moderators']) == nil then
-					return reply_msg(msg.id, 'No moderator(s) in this SuperGroup.', ok_cb, false)
+					return reply_msg(msg.id, 'هیچ مدیری در این گروه وجود ندارد!', ok_cb, false)
 				end
 				for k,v in pairs(data[tostring(msg.to.id)]['moderators']) do
 					data[tostring(msg.to.id)]['moderators'][tostring(k)] = nil
 					save_data(_config.moderation.data, data)
 				end
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] cleaned modlist")
-				return reply_msg(msg.id, 'Modlist has been cleaned', ok_cb, false)
+				return reply_msg(msg.id, 'لیست مدیران پاک شد و همه مدیران عزل شدند!', ok_cb, false)
 			end
 			if matches[2] == 'rules' then
 				local data_cat = 'rules'
 				if data[tostring(msg.to.id)][data_cat] == nil then
-					return reply_msg(msg.id, "Rules have not been set", ok_cb, false)
+					return reply_msg(msg.id, "قانونی تنظیم نشده بود", ok_cb, false)
 				end
 				data[tostring(msg.to.id)][data_cat] = nil
 				save_data(_config.moderation.data, data)
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] cleaned rules")
-				return reply_msg(msg.id, 'Rules have been cleaned', ok_cb, false)
+				return reply_msg(msg.id, 'قوانین پاک شدند', ok_cb, false)
 			end
 			if matches[2] == 'about' then
 				local receiver = get_receiver(msg)
 				local about_text = ' '
 				local data_cat = 'description'
 				if data[tostring(msg.to.id)][data_cat] == nil then
-					return reply_msg(msg.id, 'About is not set', ok_cb, false)
+					return reply_msg(msg.id, 'توضیحی برای گروه تنظیم نشده است', ok_cb, false)
 				end
 				data[tostring(msg.to.id)][data_cat] = nil
 				save_data(_config.moderation.data, data)
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] cleaned about")
 				channel_set_about(receiver, about_text, ok_cb, false)
-				return reply_msg(msg.id, "About has been cleaned", ok_cb, false)
+				return reply_msg(msg.id, "توضیحات پاک شدند", ok_cb, false)
 			end
 			if matches[2] == 'mutelist' then
 				chat_id = msg.to.id
 				local hash =  'mute_user:'..chat_id
 					redis:del(hash)
-				return reply_msg(msg.id, "Mutelist Cleaned", ok_cb, false)
+				return reply_msg(msg.id, "لیست افراد سایلنت پاک شد!", ok_cb, false)
 			end
 			if matches[2] == 'username' and is_admin1(msg) then
 				local function ok_username_cb (extra, success, result)
@@ -2398,11 +2398,11 @@ if matches[1]:lower() == "padmins" and is_sudo(msg) then
 				if is_muted_user(chat_id, user_id) then
 					unmute_user(chat_id, user_id)
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] removed ["..user_id.."] from the muted users list")
-					return reply_msg(msg.id, "["..user_id.."] removed from the muted users list", ok_cb, false)
+					return reply_msg(msg.id, "این کاربر["..user_id.."] از لیست سایلنت خارج شد", ok_cb, false)
 				elseif is_owner(msg) then
 					mute_user(chat_id, user_id)
 					savelog(msg.to.id, name_log.." ["..msg.from.id.."] added ["..user_id.."] to the muted users list")
-					return reply_msg(msg.id, "["..user_id.."] added to the muted user list", ok_cb, false)
+					return reply_msg(msg.id, "این کاربر["..user_id.."] به لیست افراد سایلنت اضافه شد\nبرای لغو کردن این دستور،همین دستور را دوباره تکرار کنید تا کاربر از سایلنت خارج شود", ok_cb, false)
 				end
 			elseif matches[1] == "muteuser" and matches[2] and not string.match(matches[2], '^%d+$') then
 				local receiver = get_receiver(msg)
