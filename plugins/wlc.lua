@@ -63,7 +63,7 @@ return {
        "^[!/#](setwlc) (.*)$",
        "^[!/#](setbye) (.*)$",
        "^[!/#](delwlc)$",
-       "^[!/#](delwlc)$",
+       "^[!/#](delbye)$",
        "^[!/#](gwelc)$",
        "^[!/#](gbay)$",
        "^!!tgservice (chat_add_user)$",
