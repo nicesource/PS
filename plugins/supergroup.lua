@@ -1720,7 +1720,7 @@ if matches[1]:lower() == "padmins" and is_sudo(msg) then
 				resolve_username(username,  callbackres, cbres_extra)
 			else
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] requested SuperGroup ID")
-				    return reply_msg(msg.id, "<code>●ایدی سوپر گروه:   </code><b>"..msg.to.id.."</b>\n<code>●ایدی کاربری:   </code><b>"..msg.from.id.."</b>\n<code>●یوزرنیم کاربری :   </code><b>@"..msg.from.username.."</b>\n<code>●کانال ما:   </code>@PowerShield_Team", ok_cb, false)
+				    return reply_msg(msg.id, "<code>●ایدی سوپر گروه:   </code><b>"..msg.to.id.."</b>\n<code>●ایدی کاربری:   </code><b>"..msg.from.id.."</b>\n<code>●یوزرنیم کاربری :   </code><b>@"..(msg.from.username or '----').."</b>\n<code>●کانال ما:   </code>@PowerShield_Team", ok_cb, false)
 			end
 		end
 
