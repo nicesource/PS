@@ -356,48 +356,17 @@ local function unlock_group_fwd(msg, data, target)
   end
 end
 --------
-local function lock_group_spam(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  if not is_owner(msg) then
-    return reply_msg(msg.id, "Owners only!", ok_cb, false)
-  end
-  local group_spam_lock = data[tostring(target)]['settings']['lock_spam']
-  if group_spam_lock == 'yes' then
-    return reply_msg(msg.id, 'اسپم کردن از قبل ممنوع بود🔒', ok_cb, false)
-  else
-    data[tostring(target)]['settings']['lock_spam'] = 'yes'
-    save_data(_config.moderation.data, data)
-    return reply_msg(msg.id, 'اسپم کردن ممنوع شد🔒', ok_cb, false)
-  end
-end
-
-local function unlock_group_spam(msg, data, target)
-  if not is_momod(msg) then
-    return
-  end
-  local group_spam_lock = data[tostring(target)]['settings']['lock_spam']
-  if group_spam_lock == 'no' then
-    return reply_msg(msg.id, 'اسپم کردن از قبل آزاد بود🔓', ok_cb, false)
-  else
-    data[tostring(target)]['settings']['lock_spam'] = 'no'
-    save_data(_config.moderation.data, data)
-    return reply_msg(msg.id, 'اسپم کردن آزاد شد🔓', ok_cb, false)
-  end
-end
---------
 local function lock_group_flood(msg, data, target)
   if not is_momod(msg) then
     return
   end
   local group_flood_lock = data[tostring(target)]['settings']['flood']
   if group_flood_lock == 'yes' then
-    return reply_msg(msg.id, 'Flood is already locked', ok_cb, false)
+    return reply_msg(msg.id, 'اسپم کردن از قبل ممنوع بود🔒', ok_cb, false)
   else
     data[tostring(target)]['settings']['flood'] = 'yes'
     save_data(_config.moderation.data, data)
-    return reply_msg(msg.id, 'Flood has been locked', ok_cb, false)
+    return reply_msg(msg.id, 'اسپم کردن ممنوع شد🔒', ok_cb, false)
   end
 end
 
@@ -407,11 +376,11 @@ local function unlock_group_flood(msg, data, target)
   end
   local group_flood_lock = data[tostring(target)]['settings']['flood']
   if group_flood_lock == 'no' then
-    return reply_msg(msg.id, 'Flood is not locked', ok_cb, false)
+    return reply_msg(msg.id, 'اسپم کردن از قبل آزاد بود🔓', ok_cb, false)
   else
     data[tostring(target)]['settings']['flood'] = 'no'
     save_data(_config.moderation.data, data)
-    return reply_msg(msg.id, 'Flood has been unlocked', ok_cb, false)
+    return reply_msg(msg.id, 'اسپم کردن آزاد شد🔓', ok_cb, false)
   end
 end
 
@@ -995,7 +964,7 @@ local expiretime = redis:hget('expiretime', get_receiver(msg))
    local now = tonumber(os.time())
    expire =  expire..math.floor((tonumber(expiretime) - tonumber(now)) / 86400) + 1
  end
-  local text = ""..message.."<code>تنظیمات سوپرگروه </code>\n\n<code>قفل لینک:            =    </code>"..settings.lock_link.."\n<code>قفل ربات:            =    </code>"..settings.lock_bots.."\n<code>قفل استیکر:          =    </code> "..settings.lock_sticker.."\n<code>قفل فحش:           =    </code> "..settings.lock_fosh.."\n<code>قفل فلود:            =    </code> "..settings.flood.."\n<code>قفل فوروارد:           =    </code>"..settings.lock_fwd.."\n<code>قفل شماره:           =    </code>"..settings.lock_contacts.."\n<code>قفل اسپم:           =    </code> "..settings.lock_spam.."\n<code>قفل عربی:            =    </code> "..settings.lock_arabic.."\n<code>قفل اعضا:            =     </code> "..settings.lock_member.."\n<code>قفل ار تی ال:         =    </code> "..settings.lock_rtl.."\n<code>قفل سرویس تلگرام:    =    </code> "..settings.lock_tgservice.."\n<code>تنظیمات عمومی:       =    </code> "..settings.public.."\n<code>سخت گیرانه:          =    </code> "..settings.strict.."\n〰〰〰〰〰〰〰〰〰〰\n"..mutes_list(msg.to.id).."\n〰〰〰〰〰〰〰〰〰〰\n<code>مدل حساسیت:</code> <b>"..NUM_MSG_MAX.."</b>\n<code>مدل گروه:</code> <i>"..groupmodel.."</i>\n<code>انقضای گروه :</code> <b>"..expire.."</b>"
+  local text = ""..message.."<code>تنظیمات سوپرگروه </code>\n\n<code>قفل لینک:            =    </code>"..settings.lock_link.."\n<code>قفل ربات:            =    </code>"..settings.lock_bots.."\n<code>قفل استیکر:          =    </code> "..settings.lock_sticker.."\n<code>قفل فحش:           =    </code> "..settings.lock_fosh.."\n<code>قفل فلود:            =    </code> "..settings.flood.."\n<code>قفل فوروارد:           =    </code>"..settings.lock_fwd.."\n<code>قفل شماره:           =    </code>"..settings.lock_contacts.."\n<code>قفل عربی:            =    </code> "..settings.lock_arabic.."\n<code>قفل اعضا:            =     </code> "..settings.lock_member.."\n<code>قفل ار تی ال:         =    </code> "..settings.lock_rtl.."\n<code>قفل سرویس تلگرام:    =    </code> "..settings.lock_tgservice.."\n<code>تنظیمات عمومی:       =    </code> "..settings.public.."\n<code>سخت گیرانه:          =    </code> "..settings.strict.."\n〰〰〰〰〰〰〰〰〰〰\n"..mutes_list(msg.to.id).."\n〰〰〰〰〰〰〰〰〰〰\n<code>مدل حساسیت:</code> <b>"..NUM_MSG_MAX.."</b>\n<code>مدل گروه:</code> <i>"..groupmodel.."</i>\n<code>انقضای گروه :</code> <b>"..expire.."</b>"
   text = string.gsub(text, 'normal', 'معمولی')
   text = string.gsub(text, 'no', '<i>خاموش</i>')
   text = string.gsub(text, 'yes', '<i>فعال</i>')
@@ -2107,10 +2076,6 @@ if matches[1]:lower() == "padmins" and is_sudo(msg) then
 				return lock_group_links(msg, data, target)
 			end
 			if matches[2]:lower() == 'spam' then
-				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked spam ")
-				return lock_group_spam(msg, data, target)
-			end
-			if matches[2]:lower() == 'flood' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] locked flood ")
 				return lock_group_flood(msg, data, target)
 			end
@@ -2163,10 +2128,6 @@ if matches[1]:lower() == "padmins" and is_sudo(msg) then
 				return unlock_group_links(msg, data, target)
 			end
 			if matches[2]:lower() == 'spam' then
-				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked spam")
-				return unlock_group_spam(msg, data, target)
-			end
-			if matches[2]:lower() == 'flood' then
 				savelog(msg.to.id, name_log.." ["..msg.from.id.."] unlocked flood")
 				return unlock_group_flood(msg, data, target)
 			end
